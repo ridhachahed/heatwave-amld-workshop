@@ -1,6 +1,6 @@
 
 <div align="center">
-    <img src="images/workshop_logo.webp" width="500" alt="Workshop logo">
+    <img src="workshop_logo.webp" width="500" alt="Workshop logo">
 </div>
 
 
@@ -35,15 +35,15 @@ HeatWave AutoML includes everything users need to build, train, deploy, and expl
 - Create a Virtual Cloud Network (VCN) in your Oracle Cloud Infrastructure (OCI).
 - Configure the VCN to allow inbound traffic on the MySQL Database Service port (default: 3306).
 
-[Lab 2: Bastion Host](requirements/README.md)
+[Lab 2: Bastion Host](bastion/README.md)
 
-- Create Bastion Host
+- Create a Bastion Host
 
 [Lab 3: Object Storage](requirements/README.md)
 
 - Create Object Storage and upload files
 
-[Lab 2: Create MySQL Database System](mysql/README.md)
+[Lab 4: Create MySQL Database System](mysql/README.md)
 
 - Create an instance of MySQL in the cloud
 - Connect and create DB
