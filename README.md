@@ -1,6 +1,6 @@
 
 <div align="center">
-    <img src="images/workshop_logo.webp" width="500" alt="Alternative text">
+    <img src="images/workshop_logo.webp" width="500" alt="Workshop logo">
 </div>
 
 
