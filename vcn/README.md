@@ -6,7 +6,7 @@ Welcome to the first step of our workshop on "Automated Machine Learning from Yo
 By the end of this guide, you will have:
 
 - Created a Virtual Cloud Network (VCN) in your Oracle Cloud Infrastructure (OCI).
-- Configured the VCN to allow inbound and outbound traffic on the MySQL Database Service port (default: 3306).
+- Configured the VCN to allow inbound traffic on the MySQL Database Service port (default: 3306).
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Before diving into the setup process, let's clarify some essential networking co
 
 
 <div align="center">
-    <img src="../images/vcn_architecture.png" alt="VCN Architecture">
+    <img src="images/vcn_architecture.png" alt="VCN Architecture">
 </div>
 
 
@@ -59,7 +59,7 @@ Navigate to the [Oracle Cloud login page](https://www.oracle.com/cloud/sign-in.h
 - Once logged in, go to the main dashboard.
 - Navigate to the **“Networking”** section and select **“Virtual Cloud Networks”**.
 
-![](../images/vcn_tab.png)
+![](images/vcn_tab.png)
 
 ### Step 3: Create a New Virtual Cloud Network (VCN) using VCN Wizard
 
@@ -68,7 +68,7 @@ Navigate to the [Oracle Cloud login page](https://www.oracle.com/cloud/sign-in.h
 The OCI VCN Wizard is a tool provided by Oracle to simplify the process of setting up and configuring a Virtual Cloud Network in their cloud environment. This wizard is particularly beneficial for users who may not be deeply familiar with networking concepts or those who wish to streamline the network creation process. 
 
 
-![](../images/start_vcn_wizard.png)
+![](images/start_vcn_wizard.png)
 
 The wizard offers several pre-configured templates that match to different use cases or deployment scenarios. These templates might include configurations for:
 
@@ -80,7 +80,7 @@ By selecting one of these templates, users can quickly set up a VCN that matches
 - For our use case, click on **"Create VCN with Internet Connectivity"**
 - Confirm you choice by clicking on **"Start VCN Wizard"**
 
-![](../images/vcn_wizard.png)
+![](images/vcn_wizard.png)
 
 
 By selecting the VCN with Internet Connectivity, the OCI VCN Wizard automates the setup of several resources within your cloud environment:
@@ -102,21 +102,21 @@ By selecting the VCN with Internet Connectivity, the OCI VCN Wizard automates th
 - **Public IP Addresses**: Assignable to individual resources within your VCN, these IP addresses make your resources accessible from the internet, necessary for any service you wish to expose publicly, like a web server
 
 <div align="center">
-    <img src="../images/vcn_with_internet.png" width="300" alt="Workshop logo">
+    <img src="images/vcn_with_internet.png" width="300" alt="Workshop logo">
 </div>
 
 - The only thing we have to do is to provide a VCN Name, let's call our VCN **"analytics_vcn"**
 - Click on Next
 
-![](../images/name_vcn.png)
+![](images/name_vcn.png)
 
 - You can review the details of the resources that will created and click on **"Create"**
 
-![](../images/create_vcn.png)
+![](images/create_vcn.png)
 
 - Once the resources have been created you will see a banner **VCN Creation complete**
 
-![](../images/vcn_details.png)
+![](images/vcn_details.png)
 
 #### Step 4: Configure Security List to Allow MySQL Traffic
 
@@ -124,17 +124,17 @@ The public subnet needs to be configured to allow traffic on the MySQL default p
 
 - Click on the **"public subnet-analytics_vcn"**
 
-![](../images/public_subnet.png)
+![](images/public_subnet.png)
 
 This involves adjusting the security lists associated with the subnet to include rules that permit inbound traffic on the MySQL port (3306).
 
 - Click on the **"Default_Security_List_for_analytics_vcn"** in order to modify it
 
-![](../images/default_security_group.png)
+![](images/default_security_group.png)
 
 - Click on the **"Add Ingress Rules"** 
 
-![](../images/add_ingress_rules.png)
+![](images/add_ingress_rules.png)
 
 Add the following Ingress Rule:
 - Source Type: CIDR
@@ -144,13 +144,13 @@ Add the following Ingress Rule:
 
 This rule will allow inbound connections on port 3306, which is used by MySQL.
 
-![](../images/mysql_ingress_rule.png)
+![](images/mysql_ingress_rule.png)
 
 #### Step 5: Verify Your Configuration
 Ensure that the VCN, subnets, internet gateway, and route tables are correctly configured.
 Double-check the security list rules to ensure that port 3306 is allowed.
 
-![](../images/mysql_ingress_rule_set.png)
+![](images/mysql_ingress_rule_set.png)
 
 ### Conclusion
 You have successfully created a Virtual Cloud Network and configured it to allow traffic through the MySQL Database Service port. This setup is crucial for ensuring that your MySQL HeatWave instances can communicate securely within your cloud environment.
