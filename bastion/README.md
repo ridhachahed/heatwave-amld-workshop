@@ -1,4 +1,4 @@
-# Setting Up the Bastion Host
+# Setting Up the Bastion Host and MySQL Shell
 
 Welcome to the second part of our workshop. This section is dedicated to setting up a Bastion Host, an essential component in managing secure access to your cloud resources. Follow the steps below to configure and utilize a Bastion Host effectively.
 
@@ -92,25 +92,17 @@ If prompted to accept the finger print, enter _**yes**_ and hit enter.
 
 ![](images/bastion_connection.png)
 
-### **Step 4.8:**
-- From the established ssh connection, install MySQL Shell and MySQL client executing the following commands and the expected outputput should be as following:
-  
-- You then need to install an RPM package that serves as a repository configuration file for the MySQL 8.0 Community Server, specifically tailored for Enterprise Linux 8. This repository will allow you to install MySQL 8.0 Community Edition. MySQL Community Edition is the freely downloadable version of the world's most popular open-source database, optimized for the open-source community.
+### Step 4: 
 
-```
-wget https://dev.mysql.com/get/mysql80-community-release-el8-9.noarch.rpm
-```
+If you install MySQL Shell on the bastion host, you can then use it to connect securely to your MySQL database server residing on a different machine in your private network. This setup is useful if you want to prevent direct exposure of your MySQL server to the internet and allow database connections only through the bastion.
 
-```
-sudo yum localinstall ./mysql80-community-release-el8-9.noarch.rpm -v
-```
+
+- You can now install MySQL Shell executing the following commands :
 
 ```
 sudo yum install mysql-shell  
 ```
 
-
-### **Step 4.9:**
 - Launch MySQL Shell executing the following command:
 ```
 mysqlsh
@@ -120,14 +112,12 @@ When you see the MySQL Shell colorful prompt, exit with the following command:
 \q
 ```
 
-### **Step 4.10:**
-- Download and unzip the workshop material using the following commands:
-```
-cd /home/opc
-``
+![](images/mysqlsh.png)
+
 
 ## Conclusion
-You have successfully set up a compute instance to function as a bastion host, establishing it as the public gateway to the Virtual Cloud Network (VCN) we crafted earlier. You've securely stored the private key on your local machine, ensuring you're equipped to connect to this Compute Instance. With this foundational setup complete, we're now poised to move forward and initiate the deployment of the MySQL Database Service (MDS) with Heatwave in our upcoming lab!
+You have successfully set up a compute instance to function as a bastion host, establishing it as the public gateway to the Virtual Cloud Network (VCN) we crafted earlier. You have streamlined a direct connection to your Database System through
+the bastion node. We're now ready to move forward and initiate the deployment of the MySQL Database Service (MDS) with Heatwave in our upcoming lab!
 
 
 
