@@ -70,11 +70,64 @@ The file you are downloading is crucial for securely accessing the Bastion Host.
 
 After few seconds, you will be able to see that the Bastion Host instance has a **running** status. 
 
- ![](images/running_bastion.png)
+- Make sure to take of the **Public IP Address** as you will need it to connect to the host 
 
+![](images/bastion_running.png)
+
+
+### Step 3: Connect to the Bastion Host using the Cloud Shell
+
+To establish a connection with the bastion host, we'll utilize the cloud shell, which is a compact Linux terminal integrated into the OCI interface. You can access the cloud shell by clicking on the shell icon located adjacent to the OCI region name, at the top right corner of the page.
+
+![](images/cloud_shell.png)
+
+
+- Establish an SSH connection with the bastion host using its Public IP address by exectuing the following commands in your cloud shell :
+```
+chmod 600 <private-key-file-name>.key
+ssh -i <private-key-file-name>.key opc@<compute_instance_public_ip>
+```
+
+If prompted to accept the finger print, enter _**yes**_ and hit enter.
+
+![](images/bastion_connection.png)
+
+### **Step 4.8:**
+- From the established ssh connection, install MySQL Shell and MySQL client executing the following commands and the expected outputput should be as following:
+  
+- You then need to install an RPM package that serves as a repository configuration file for the MySQL 8.0 Community Server, specifically tailored for Enterprise Linux 8. This repository will allow you to install MySQL 8.0 Community Edition. MySQL Community Edition is the freely downloadable version of the world's most popular open-source database, optimized for the open-source community.
+
+```
+wget https://dev.mysql.com/get/mysql80-community-release-el8-9.noarch.rpm
+```
+
+```
+sudo yum localinstall ./mysql80-community-release-el8-9.noarch.rpm -v
+```
+
+```
+sudo yum install mysql-shell  
+```
+
+
+### **Step 4.9:**
+- Launch MySQL Shell executing the following command:
+```
+mysqlsh
+```
+When you see the MySQL Shell colorful prompt, exit with the following command:
+```
+\q
+```
+
+### **Step 4.10:**
+- Download and unzip the workshop material using the following commands:
+```
+cd /home/opc
+``
 
 ## Conclusion
-You have successfully successfully set up a compute instance to function as a bastion host, establishing it as the public gateway to the Virtual Cloud Network (VCN) we crafted earlier. You've securely stored the private key on your local machine, ensuring you're equipped to connect to this Compute Instance. With this foundational setup complete, we're now poised to move forward and initiate the deployment of the MySQL Database Service (MDS) with Heatwave in our upcoming lab!
+You have successfully set up a compute instance to function as a bastion host, establishing it as the public gateway to the Virtual Cloud Network (VCN) we crafted earlier. You've securely stored the private key on your local machine, ensuring you're equipped to connect to this Compute Instance. With this foundational setup complete, we're now poised to move forward and initiate the deployment of the MySQL Database Service (MDS) with Heatwave in our upcoming lab!
 
 
 

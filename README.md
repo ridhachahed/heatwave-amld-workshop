@@ -1,10 +1,10 @@
 
 <div align="center">
-    <img src="workshop_logo.webp" width="500" alt="Workshop logo">
+    <img src="logo_workshop.png" width="500" alt="Workshop logo">
 </div>
 
 
-# Automated Machine Learning from Your Database System with MySQL HeatWave Cloud Service
+# Automated Machine Learning from Your Database System with MySQL HeatWave Service
 
 Welcome to the official GitHub repository for our workshop at the [Applied Machine Learning Days Conference 2024](https://www.appliedmldays.org/)!
 
