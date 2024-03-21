@@ -39,7 +39,7 @@ HeatWave AutoML includes everything users need to build, train, deploy, and expl
 
 - Create a Bastion Host
 
-[Lab 3: Object Storage](requirements/README.md)
+[Lab 3: Object Storage](object_storage/README.md)
 
 - Create Object Storage and upload files
 
@@ -47,7 +47,7 @@ HeatWave AutoML includes everything users need to build, train, deploy, and expl
 
 - Create an instance of MySQL in the cloud
 - Connect and create DB
-- Enable HeatWave
+- Enable HeatWave for analytics queries
 
 ## Setup Instructions
 
