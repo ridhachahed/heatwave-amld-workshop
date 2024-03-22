@@ -1,4 +1,4 @@
-## Setup a MySQL HeatWave DB System
+# Setup a MySQL HeatWave DB System
 
 1. On the OCI Console, go to the hamburger menu, then choose *Databases* and *DB Systems* under the MySQL HeatWave section
 ![step_1](images/mysql_hw_step_1.png)

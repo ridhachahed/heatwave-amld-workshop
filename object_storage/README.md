@@ -1,4 +1,4 @@
-## Create Object Storage bucket and upload files
+# Create Object Storage bucket and upload files
 
 * Go to *Menu* > *Storage* > *Buckets*.
 ![step_1](images/os_step_1.png)
