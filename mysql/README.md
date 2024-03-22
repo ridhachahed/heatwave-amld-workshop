@@ -26,5 +26,11 @@ Then, we change the configuration of the HeatWave cluster to have 2 nodes and th
 ![step_7_c](images/mysql_hw_step_7_c.png)
 ![step_7_d](images/mysql_hw_step_7_d.png)
 
-* Finally, scroll down to the *Configure backup plan* section and make sure to `disable` point-in-time recovery, then click on *Create*. Give it a few minutes until all the infrastructure is created for you. Happy HeatWaving!
+* Finally, scroll down to the *Configure backup plan* section and make sure to `disable` point-in-time recovery, then click on *Create*.
 ![step_8](images/mysql_hw_step_8.png)
+
+
+* Give it a few minutes until all the infrastructure is created for you. Take note of your assigned Private IP Address as you will need it to connect to your 
+Database System. Happy HeatWaving!
+
+![step_9](images/mysql_hw_step_9.png)

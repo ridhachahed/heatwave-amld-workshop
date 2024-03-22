@@ -103,9 +103,10 @@ If you install MySQL Shell on the bastion host, you can then use it to connect s
 sudo yum install mysql-shell  
 ```
 
-- Launch MySQL Shell executing the following command:
+- Launch MySQL Shell executing the following command with your **admin_password** and your **mysql_private_ip_address**:
+
 ```
-mysqlsh
+mysqlsh --user=admin --password=<admin_password> --host=<mysql_private_ip_address> --port=3306 --sql
 ```
 When you see the MySQL Shell colorful prompt, exit with the following command:
 ```
