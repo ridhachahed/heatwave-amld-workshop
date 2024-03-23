@@ -49,19 +49,14 @@ Before diving into the setup process, let's clarify some essential networking co
 
 More information about OCI Networking can be found in the [documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm).
 
-## Step-by-Step Guide
 
-
-### Step 1: Sign in to Your Oracle Cloud Account
-Navigate to the [Oracle Cloud login page](https://www.oracle.com/cloud/sign-in.html) and sign in using your credentials.
-
-### Step 2: Access the Virtual Cloud Network Section
+## Step 1: Access the Virtual Cloud Network Section
 - Once logged in, go to the main dashboard.
 - Navigate to the **“Networking”** section and select **“Virtual Cloud Networks”**.
 
 ![](images/vcn_tab.png)
 
-### Step 3: Create a New Virtual Cloud Network (VCN) using VCN Wizard
+## Step 2: Create a New Virtual Cloud Network (VCN) using VCN Wizard
 
 - Click on **"Start VCN Wizard"**.
 
@@ -118,7 +113,7 @@ By selecting the VCN with Internet Connectivity, the OCI VCN Wizard automates th
 
 ![](images/vcn_details.png)
 
-#### Step 4: Configure Security List to Allow MySQL Traffic
+## Step 3: Configure the Security List to Allow MySQL Traffic
 
 The public subnet needs to be configured to allow traffic on the MySQL default port (3306 TCP) so that applications and services, possibly running in other parts of your cloud environment or on the internet, can communicate with your MySQL Database Service. 
 
@@ -146,16 +141,18 @@ This rule will allow inbound connections on port 3306, which is used by MySQL.
 
 ![](images/mysql_ingress_rule.png)
 
-#### Step 5: Verify Your Configuration
+## Step 4: Verify Your Configuration
 Ensure that the VCN, subnets, internet gateway, and route tables are correctly configured.
 Double-check the security list rules to ensure that port 3306 is allowed.
 
 ![](images/mysql_ingress_rule_set.png)
 
-### Conclusion
+## Conclusion
 You have successfully created a Virtual Cloud Network and configured it to allow traffic through the MySQL Database Service port. This setup is crucial for ensuring that your MySQL HeatWave instances can communicate securely within your cloud environment.
 
 Please proceed to the next section of the workshop once you have completed these steps.
+
+The next step of our workshop will focus on creating a database system within the MySQL HeatWave Service and attaching a HeatWave cluster to this database system, enabling us to leverage the full power of HeatWave's analytics and machine learning capabilities.
 
 [Lab 2: Create MySQL Database System](mysql/README.md)
 
