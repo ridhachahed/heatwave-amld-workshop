@@ -69,6 +69,8 @@ SET @options = JSON_OBJECT('external_tables', CAST(@ext_tables AS JSON));
 CALL sys.heatwave_load(@db_list, @options);
 
 DESCRIBE ml_data.bank_marketing;
+
+SELECT * FROM ml_data.bank_marketing limit 10;
 ``` 
 
 
@@ -94,29 +96,43 @@ Heatwave AutoML fully automated the entire cycle of data processing and Machine 
 
 
 ``` 
+SET @model_bank = "model_bank";
+
 -- Train the model
 CALL sys.ML_TRAIN('ml_data.bank_marketing', 'y', JSON_OBJECT('task', 'classification'), @model_bank);
+
+-- Describe the Modal catalog
+DESCRIBE ML_SCHEMA_admin.MODEL_CATALOG ;
+
+-- Check the model metadata 
+SELECT JSON_PRETTY(model_metadata) FROM ML_SCHEMA_admin.MODEL_CATALOG WHERE model_handle=@model_bank \G
 
 -- Load the model into HeatWave
 CALL sys.ML_MODEL_LOAD(@model_bank, NULL);
 
 -- Score the model on the test data
-CALL sys.ML_SCORE('ml_data.bank_marketing', 'y', @model_bank, 'accurarcy', @score_bank, null);
+CALL sys.ML_SCORE('ml_data.bank_marketing', 'y', @model_bank, 'accuracy', @score_bank, null);
 
 -- Print the score
 SELECT @score_bank;
 ``` 
+![](images/select%20table.png)
+
+![](images/model%20catalog.png)
+
+![](images/model%20catalog.png)
+
 
 After training the model we are ready to use it to make some predictions.
 
 ``` 
 CREATE TABLE bank_marketing_test
-        AS SELECT * from bank_marketing_test LIMIT 20;
+        AS SELECT * from bank_marketing LIMIT 20;
     
-ALTER TABLE bank_marketing_test SECONDARY_LOAD;
+CALL sys.ML_PREDICT_TABLE('ml_data.bank_marketing_test', @model_bank, 
+        'ml_data.bank_marketing_predictions', NULL);
 
-CALL sys.ML_PREDICT_TABLE('ml_data.bank_marketing_test', @bank_model, 
-        'ml_data.bank_marketing_predictions', NULL);s
+SELECT * FROM ml_data.bank_marketing_predictions;
 ``` 
 
 ## Part 3: Interpret your model predictions with explainability tools  
@@ -145,7 +161,7 @@ HeatWave AutoML supports both model explainer and prediction explainer functiona
 Check the Heatwave AutoML [documentation](https://dev.mysql.com/doc/heatwave/en/mys-hwaml-explainers.html) for training explainers.
 
 ```
-CALL sys.ML_EXPLAIN('ml_data.bank_marketing_test', 'y', @bank_model, JSON_OBJECT('prediction_explainer', 'permutation_importance'));
+CALL sys.ML_EXPLAIN('ml_data.bank_marketing', 'y', @model_bank, JSON_OBJECT('prediction_explainer', 'permutation_importance'));
 ```
 
 ### Prediction Explainer
@@ -159,19 +175,21 @@ CALL sys.ML_EXPLAIN('ml_data.bank_marketing_test', 'y', @bank_model, JSON_OBJECT
 Check the Heatwave AutoML [documentation](https://dev.mysql.com/doc/heatwave/en/mys-hwaml-explanations.html) for prediction explanations.
 
 ``` 
-CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @bank_model, 
+CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @model_bank, 
         'ml_data.bank_marketing_test_explanations', 
         JSON_OBJECT('prediction_explainer', 'permutation_importance'));
+
+SELECT JSON_PRETTY(ml_results) FROM ml_data.bank_marketing_test_explanations limit 1 \G
 ``` 
 
 
 ``` 
-SET @row_input = JSON_OBJECT(
+SELECT JSON_PRETTY(sys.ML_PREDICT_ROW(JSON_OBJECT(
     'age', bank_marketing_test.age,
     'job', bank_marketing_test.job,
     'marital', bank_marketing_test.marital,
     'education', bank_marketing_test.education,
-    'default1', bank_marketing_test.default1,
+    'default', bank_marketing_test.default,
     'balance', bank_marketing_test.balance,
     'housing', bank_marketing_test.housing,
     'loan', bank_marketing_test.loan,
@@ -182,12 +200,27 @@ SET @row_input = JSON_OBJECT(
     'campaign', bank_marketing_test.campaign,
     'pdays', bank_marketing_test.pdays,
     'previous', bank_marketing_test.previous,
-    'poutcome', bank_marketing_test.poutcome);
+    'poutcome', bank_marketing_test.poutcome),
+     @model_bank, NULL))
+    FROM bank_marketing_test LIMIT 1 \G
 
-SELECT sys.ML_PREDICT_ROW(@row_input, @bank_model, NULL)
-    FROM bank_marketing_test LIMIT 4;
-
-SELECT sys.ML_EXPLAIN_ROW(@row_input, @bank_model,
-        JSON_OBJECT('prediction_explainer', 'permutation_importance'))
-        FROM bank_marketing_test LIMIT 4;
+SELECT JSON_PRETTY(sys.ML_EXPLAIN_ROW(JSON_OBJECT(
+    'age', bank_marketing_test.age,
+    'job', bank_marketing_test.job,
+    'marital', bank_marketing_test.marital,
+    'education', bank_marketing_test.education,
+    'default', bank_marketing_test.default,
+    'balance', bank_marketing_test.balance,
+    'housing', bank_marketing_test.housing,
+    'loan', bank_marketing_test.loan,
+    'contact', bank_marketing_test.contact,
+    'day', bank_marketing_test.day,
+    'month', bank_marketing_test.month,
+    'duration', bank_marketing_test.duration,
+    'campaign', bank_marketing_test.campaign,
+    'pdays', bank_marketing_test.pdays,
+    'previous', bank_marketing_test.previous,
+    'poutcome', bank_marketing_test.poutcome),
+     @model_bank, JSON_OBJECT('prediction_explainer', 'permutation_importance')))
+    FROM bank_marketing_test LIMIT 1 \G
 ``` 
