@@ -160,7 +160,7 @@ Check the Heatwave AutoML [documentation](https://dev.mysql.com/doc/heatwave/en/
 
 ``` 
 CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @bank_model, 
-        'ml_data.bank_marketing_lakehouse_test_explanations', 
+        'ml_data.bank_marketing_test_explanations', 
         JSON_OBJECT('prediction_explainer', 'permutation_importance'));
 ``` 
 

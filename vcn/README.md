@@ -157,3 +157,5 @@ You have successfully created a Virtual Cloud Network and configured it to allow
 
 Please proceed to the next section of the workshop once you have completed these steps.
 
+[Lab 2: Create MySQL Database System](mysql/README.md)
+
