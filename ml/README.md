@@ -37,7 +37,7 @@ For more information about Heatwave Lakehouse, have a look at the [Technical Ove
 To locate the data file, a PAR (Pre-Authenticated Request) URL is used to securely access the data in the object storage, ensuring that data access is controlled and secure. More information about PAR can be found [here](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm). 
 
 
-Below is an example of how to use heatwave_load to load the unstructed banking data we have in our bucket. All you have to set is the correct **<PAR_URL>**:
+Below is an example of how to use heatwave_load to load the unstructed banking data we have in our bucket. All you have to set is the correct **PAR_URL**:
 ``` 
 CREATE DATABASE ml_data;
 
