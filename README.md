@@ -3,6 +3,10 @@
     <img src="logo_workshop.png" width="500" alt="Workshop logo">
 </div>
 
+<p align="center">
+    <a href="https://ridhachahed.github.io/heatwave-workshop-website/">
+    <img alt="Website" src="https://img.shields.io/badge/website-online-green">
+</p>
 
 # Automated Machine Learning from Your Database System with MySQL Heatwave Service
 
