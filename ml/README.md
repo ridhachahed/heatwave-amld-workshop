@@ -107,28 +107,58 @@ CALL sys.ML_SCORE('ml_data.bank_marketing', 'y', @model_bank, 'accurarcy', @scor
 SELECT @score_bank;
 ``` 
 
+After training the model we are ready to use it to make some predictions.
+
 ``` 
 CREATE TABLE bank_marketing_test
         AS SELECT * from bank_marketing_test LIMIT 20;
     
 ALTER TABLE bank_marketing_test SECONDARY_LOAD;
 
+CALL sys.ML_PREDICT_TABLE('ml_data.bank_marketing_test', @bank_model, 
+        'ml_data.bank_marketing_predictions', NULL);s
 ``` 
 
 ## Part 3: Interpret your model predictions with explainability tools  
 
-With the trained model, you can do some predictions and even explain the predictions and the model.
+Explainability in machine learning, including within the context of MySQL HeatWave AutoML, is a critical aspect that addresses the need to understand and trust the decisions made by machine learning models. 
 
+As machine learning models, particularly complex ones, can often act as "black boxes," where the decision-making process is not transparent, explainability aims to make the workings of these models more understandable to humans. This is crucial for diagnosing issues, ensuring fairness, and complying with regulatory requirements, among other reasons.
+
+The main benefits of explainability in the development of Machine Learning models are: 
+
+- **Trust and Transparency**: Explainability builds trust among users and stakeholders by making it clear how and why decisions are made.
+- **Model Improvemen**t: Insights gained from explainable models can guide developers in refining and improving model performance.
+- **Compliance and Ethics**: In many industries, being able to explain model decisions is essential for compliance with regulatory standards and ethical considerations.
 
 ![](images/fairness_ml.jpeg)
 
+HeatWave AutoML supports both model explainer and prediction explainer functionalities, covering different use cases.
+
+### Model Explainer
+**Focus**: Provides a broad overview of how the model generally makes decisions.
+
+**Insights**: Highlights overall feature importance and model behavior across the dataset.
+
+**Use Case**: Useful for understanding and improving the model, and for explaining its general decision-making process.
+
+Check the Heatwave AutoML [documentation](https://dev.mysql.com/doc/heatwave/en/mys-hwaml-explainers.html) for training explainers.
+
+```
+CALL sys.ML_EXPLAIN('ml_data.bank_marketing_test', 'y', @bank_model, JSON_OBJECT('prediction_explainer', 'permutation_importance'));
+```
+
+### Prediction Explainer
+
+**Focus**: Offers detailed reasons behind individual predictions made by the model.
+
+**Insights**: Details the impact of each feature on a specific prediction.
+
+**Use Case**: Essential for analyzing specific decisions, especially in high-stakes or personalized contexts.
+
+Check the Heatwave AutoML [documentation](https://dev.mysql.com/doc/heatwave/en/mys-hwaml-explanations.html) for prediction explanations.
+
 ``` 
-CALL sys.ML_PREDICT_TABLE('ml_data.bank_marketing_test', @bank_model, 
-        'ml_data.bank_marketing_predictions', NULL);
-
-CALL sys.ML_EXPLAIN('ml_data.bank_marketing_test', 'y', @bank_model, 
-        JSON_OBJECT('prediction_explainer', 'permutation_importance'));
-
 CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @bank_model, 
         'ml_data.bank_marketing_lakehouse_test_explanations', 
         JSON_OBJECT('prediction_explainer', 'permutation_importance'));
@@ -136,7 +166,7 @@ CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @bank_model,
 
 
 ``` 
-SET @row_input = JSON_OBJECT(
+SET @row_input = JSON_OBJEsCT(
     'age', bank_marketing_test.age,
     'job', bank_marketing_test.job,
     'marital', bank_marketing_test.marital,
