@@ -25,3 +25,5 @@
 
 * Take note of the URL you have. We will need it later.
 ![step_8](images/os_step_8.png)
+
+As you move forward, the next step in enhancing your cloud infrastructure involves creating a bastion node. This bastion node will serve as a secure gateway, enabling you to connect to your MySQL database system from outside the Oracle Cloud network. By establishing this connection, you'll ensure that you can manage and interact with your database securely, paving the way for more advanced configurations and operations.
