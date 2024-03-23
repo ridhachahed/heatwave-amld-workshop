@@ -166,7 +166,7 @@ CALL sys.ML_EXPLAIN_TABLE('ml_data.bank_marketing_test', @bank_model,
 
 
 ``` 
-SET @row_input = JSON_OBJEsCT(
+SET @row_input = JSON_OBJECT(
     'age', bank_marketing_test.age,
     'job', bank_marketing_test.job,
     'marital', bank_marketing_test.marital,
