@@ -17,17 +17,27 @@ This lab is designed to guide you through the process of loading unstructured da
 - Explain the predicitons of your trained model.
 
 
-## Part 1: Setting Up Your Lakehouse Table
+## Part 1: Heatwave Lakehouse for your unstructured data
 
+Building on the strengths of MySQL and the HeatWave query accelerator, the MySQL HeatWave Lakehouse allows direct querying of data across both MySQL databases and data lakes (like those on Amazon S3 or Oracle Object Storage). 
+
+This means that it can perform analytics on a combination of transactional data stored in MySQL and massive datasets stored in data lakes without moving or transforming the data. This integration effectively turns MySQL into a lakehouse, supporting both operational and analytical workloads at scale, thereby eliminating the complexity and delays involved in traditional ETL processes.
 
 LakeHouse tables allow you to query data stored in external storage systems as if it were inside your MySQL database. They are especially useful for managing large, unstructured datasets without importing them directly into your database, offering flexibility and efficiency.
 
-Creating a lakehouse table does not involve defining a schema that reflects the data you want to query. Indeed, using the stored procedure heatwave_load will infer 
-the schema from the data and create a table. 
+![](images/lakehouse_diagram.avif)
 
-To locate the data file, a PAR (Pre-Authenticated Request) URL is used to securely access the data in the object storage, ensuring that data access is controlled and secure.
+Traditionally, loading data into a high-performance analytics engine could involve several steps, including data transformation, staging, and finally loading, each possibly requiring manual intervention or scripting. **heatwave_load** simplifies this by providing a direct way to load data from MySQL tables into the HeatWave cluster.
 
-Here is below an example of how to use heatwave_load to load the unstructed banking data we have in our bucket. All you have to set is the correct **<PARL_URL>**:
+The ability of MySQL HeatWave to automatically infer the schema during the data loading process is a significant feature that enhances its usability and efficiency. When you use the heatwave_load function, the system's capability to automatically determine the schema of the data being loaded simplifies the preparation and integration of data for analysis
+
+For more information about Heatwave Lakehouse, have a look at the [Technical Overview](https://www.oracle.com/a/ocom/docs/mysql/mysql-heatwave-lakehouse-technical-brief.pdf).
+
+
+To locate the data file, a PAR (Pre-Authenticated Request) URL is used to securely access the data in the object storage, ensuring that data access is controlled and secure. More information about PAR can be found [here](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm). 
+
+
+Below is an example of how to use heatwave_load to load the unstructed banking data we have in our bucket. All you have to set is the correct **<PAR_URL>**:
 ``` 
 CREATE DATABASE ml_data;
 
@@ -48,7 +58,7 @@ SET @ext_tables = '[
           "skip_rows": 0
       },
     "file": [{
-      "par": "<PARL_URL>"
+      "par": "<PAR_URL>"
         }]
    }]
 }
@@ -61,7 +71,27 @@ CALL sys.heatwave_load(@db_list, @options);
 DESCRIBE ml_data.bank_marketing;
 ``` 
 
-Once the data is loaded, you can Heatwave AutoML to train a model on your loaded data. 
+
+## Part 2: Heatwave AutoML to train your Machine Learning model 
+
+Once the data is loaded, you can use Heatwave AutoML to train a model on your loaded data. 
+
+HeatWave AutoML is deeply integrated with MySQL HeatWave, allowing users to leverage their existing database infrastructure for machine learning tasks without the need for external tools or platforms.
+
+This integration means that users can easily execute machine learning workflows directly on their operational data stored in MySQL databases, benefiting from HeatWave's high-performance analytics capabilities.
+
+Heatwave AutoML fully automated the entire cycle of data processing and Machine Learning model deployment:
+
+- **Automated Data Preprocessing**: HeatWave AutoML can automatically handle tasks such as missing value imputation, encoding categorical variables, and normalizing or scaling features.
+
+- **Model Selection and Training**: It evaluates multiple machine learning algorithms and configurations to select the best model based on the user's data. This process involves training models on a subset of the data and validating their performance to ensure the selected model performs well on unseen data.
+
+- **Hyperparameter Optimization**: Automatically tunes the hyperparameters of the chosen models to maximize performance, saving users from the complex and time-consuming task of manual tuning.
+
+- **Transparent and Explainable** AI: Offers insights into the model's decisions and predictions, making it easier for users to trust and understand the outcomes of their machine learning models.
+
+![](images/mysql_heatwave_ml.png)
+
 
 ``` 
 -- Train the model
@@ -85,7 +115,12 @@ ALTER TABLE bank_marketing_test SECONDARY_LOAD;
 
 ``` 
 
+## Part 3: Interpret your model predictions with explainability tools  
+
 With the trained model, you can do some predictions and even explain the predictions and the model.
+
+
+![](images/fairness_ml.jpeg)
 
 ``` 
 CALL sys.ML_PREDICT_TABLE('ml_data.bank_marketing_test', @bank_model, 
